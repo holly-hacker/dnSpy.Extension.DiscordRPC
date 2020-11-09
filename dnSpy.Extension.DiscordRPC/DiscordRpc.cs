@@ -2,8 +2,10 @@ using System;
 using System.ComponentModel.Composition;
 using System.Timers;
 using DiscordRPC;
+using DiscordRPC.Logging;
 using DiscordRPC.Message;
 using dnSpy.Contracts.Extension;
+using dnSpy.Contracts.Output;
 
 namespace HoLLy.dnSpyExtension.DiscordRPC
 {
@@ -15,13 +17,22 @@ namespace HoLLy.dnSpyExtension.DiscordRPC
 		private DiscordRpcClient Client { get; }
 
 		[ImportingConstructor]
-		public DiscordRpc()
+		public DiscordRpc(IOutputService outputService)
 		{
 			StartTime = DateTime.UtcNow;
+			
+			var outputPane = outputService.Create(Constants.LoggerOutputPaneGuid, "Discord RPC");
+			
 			UpdateTimer = new Timer(1000) {AutoReset = true};
 			UpdateTimer.Elapsed += OnTimerTick;
 			Client = new DiscordRpcClient(Constants.DiscordApplicationId, autoEvents: true)
-				{SkipIdenticalPresence = true};
+			{
+				SkipIdenticalPresence = true,
+				Logger = new OutputPaneLogger(outputPane)
+				{
+					Level = LogLevel.Info,
+				},
+			};
 			Client.OnReady += OnClientReady;
 
 			Client.Initialize();

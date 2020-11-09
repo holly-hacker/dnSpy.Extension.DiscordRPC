@@ -1,8 +1,33 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+    <!-- Imports dnlib version -->
+    <Import Project="../dnSpy/DnSpyCommon.props" />
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Title>dnSpy DiscordRPC Extension</Title>
+        <Description>Provides Discord Rich Presence integration for dnSpy</Description>
+        <Authors>HoLLy</Authors>
+        <Copyright>Copyright © HoLLy 2020</Copyright>
+        <FileVersion>0.0.1.0</FileVersion>
+        <AssemblyVersion>0.0.1</AssemblyVersion>
+
+        <PackageVersion>0.0.1</PackageVersion>
+        <PackageProjectUrl>https://github.com/HoLLy-HaCKeR/dnSpy.Extension.DiscordRPC</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/HoLLy-HaCKeR/dnSpy.Extension.DiscordRPC/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <RepositoryUrl>https://github.com/HoLLy-HaCKeR/dnSpy.Extension.DiscordRPC.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+
+        <AssemblyName>dnSpy.Extension.DiscordRPC.x</AssemblyName>
         <RootNamespace>HoLLy.dnSpyExtension.DiscordRPC</RootNamespace>
+
+        <LangVersion>8</LangVersion>
+        <NullableContextOptions>enable</NullableContextOptions>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+
+        <!-- Turn nullability warnings into errors -->
+        <WarningsAsErrors>CS8600;CS8602;CS8603;CS8604</WarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>

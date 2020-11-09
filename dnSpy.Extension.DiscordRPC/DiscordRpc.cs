@@ -5,6 +5,7 @@ using DiscordRPC;
 using DiscordRPC.Logging;
 using DiscordRPC.Message;
 using dnSpy.Contracts.App;
+using dnSpy.Contracts.Debugger;
 using dnSpy.Contracts.Documents.Tabs;
 using dnSpy.Contracts.Extension;
 using dnSpy.Contracts.Output;
@@ -24,13 +25,14 @@ namespace HoLLy.dnSpyExtension.DiscordRPC
 		private readonly OutputPaneLogger _outputPaneLogger;
 
 		[ImportingConstructor]
-		public DiscordRpc(IOutputService outputService, IDocumentTabService tabService, IAppWindow appWindow)
+		public DiscordRpc(IOutputService outputService, IDocumentTabService tabService, IAppWindow appWindow, DbgManager dbgManager)
 		{
 			_appWindow = appWindow;
 			StartTime = DateTime.UtcNow;
 
 			_presenceProviders = new IPresenceProvider[]
 			{
+				new DebuggerPresenceProvider(dbgManager),
 				new TreeNodePresenceProvider(tabService),
 				new CurrentTabPresenceProvider(tabService),
 				new FallbackPresenceProvider(),

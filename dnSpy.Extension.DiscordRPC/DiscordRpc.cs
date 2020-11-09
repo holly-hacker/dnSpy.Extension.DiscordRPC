@@ -31,6 +31,7 @@ namespace HoLLy.dnSpyExtension.DiscordRPC
 
 			_presenceProviders = new IPresenceProvider[]
 			{
+				new TreeNodePresenceProvider(tabService),
 				new CurrentTabPresenceProvider(tabService),
 				new FallbackPresenceProvider(),
 			};

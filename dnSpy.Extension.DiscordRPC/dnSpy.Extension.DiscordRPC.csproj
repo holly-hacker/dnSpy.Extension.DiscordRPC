@@ -5,4 +5,10 @@
         <RootNamespace>HoLLy.dnSpyExtension.DiscordRPC</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\dnSpy\dnSpy\dnSpy.Contracts.Debugger\dnSpy.Contracts.Debugger.csproj" Private="false" />
+      <ProjectReference Include="..\dnSpy\dnSpy\dnSpy.Contracts.DnSpy\dnSpy.Contracts.DnSpy.csproj" Private="false" />
+      <ProjectReference Include="..\dnSpy\dnSpy\dnSpy.Contracts.Logic\dnSpy.Contracts.Logic.csproj" Private="false" />
+    </ItemGroup>
+
 </Project>

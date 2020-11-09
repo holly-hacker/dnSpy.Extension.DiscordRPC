@@ -36,4 +36,8 @@
       <ProjectReference Include="..\dnSpy\dnSpy\dnSpy.Contracts.Logic\dnSpy.Contracts.Logic.csproj" Private="false" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="DiscordRichPresence" Version="1.0.166" />
+    </ItemGroup>
+
 </Project>

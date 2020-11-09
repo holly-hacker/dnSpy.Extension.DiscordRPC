@@ -4,8 +4,11 @@ using System.Timers;
 using DiscordRPC;
 using DiscordRPC.Logging;
 using DiscordRPC.Message;
+using dnSpy.Contracts.App;
+using dnSpy.Contracts.Documents.Tabs;
 using dnSpy.Contracts.Extension;
 using dnSpy.Contracts.Output;
+using HoLLy.dnSpyExtension.DiscordRPC.PresenceProviders;
 
 namespace HoLLy.dnSpyExtension.DiscordRPC
 {
@@ -16,22 +19,34 @@ namespace HoLLy.dnSpyExtension.DiscordRPC
 		private Timer UpdateTimer { get; }
 		private DiscordRpcClient Client { get; }
 
+		private readonly IPresenceProvider[] _presenceProviders;
+		private readonly IAppWindow _appWindow;
+		private readonly OutputPaneLogger _outputPaneLogger;
+
 		[ImportingConstructor]
-		public DiscordRpc(IOutputService outputService)
+		public DiscordRpc(IOutputService outputService, IDocumentTabService tabService, IAppWindow appWindow)
 		{
+			_appWindow = appWindow;
 			StartTime = DateTime.UtcNow;
-			
+
+			_presenceProviders = new IPresenceProvider[]
+			{
+				new CurrentTabPresenceProvider(tabService),
+				new FallbackPresenceProvider(),
+			};
+
 			var outputPane = outputService.Create(Constants.LoggerOutputPaneGuid, "Discord RPC");
-			
+			_outputPaneLogger = new OutputPaneLogger(outputPane)
+			{
+				Level = LogLevel.Info,
+			};
+
 			UpdateTimer = new Timer(1000) {AutoReset = true};
 			UpdateTimer.Elapsed += OnTimerTick;
 			Client = new DiscordRpcClient(Constants.DiscordApplicationId, autoEvents: true)
 			{
 				SkipIdenticalPresence = true,
-				Logger = new OutputPaneLogger(outputPane)
-				{
-					Level = LogLevel.Info,
-				},
+				Logger = _outputPaneLogger,
 			};
 			Client.OnReady += OnClientReady;
 
@@ -45,7 +60,7 @@ namespace HoLLy.dnSpyExtension.DiscordRPC
 			// start with constant values
 			Client.SetPresence(new RichPresence
 			{
-				Timestamps = new Timestamps(DateTime.UtcNow),
+				Timestamps = new Timestamps(StartTime),
 				Assets = new Assets
 				{
 					LargeImageKey = Constants.LargeImageKeyDnSpy,
@@ -56,8 +71,28 @@ namespace HoLLy.dnSpyExtension.DiscordRPC
 
 		private void OnTimerTick(object sender, ElapsedEventArgs e)
 		{
-			Client.UpdateDetails("details!");
-			Client.UpdateState(Guid.NewGuid().ToString());
+			// running from UI context so we don't get thread exceptions
+			_appWindow.MainWindow.Dispatcher.Invoke(() =>
+			{
+				foreach (var provider in _presenceProviders)
+				{
+					try
+					{
+						if (!provider.CanProvidePresence())
+							continue;
+
+						var state = provider.GetState();
+						Client.UpdateDetails(provider.Details);
+						Client.UpdateState(state);
+						break;
+					}
+					catch (Exception ex)
+					{
+						// ignored, continue with next
+						_outputPaneLogger.Error($"Exception during provider {provider.GetType().Name}: {ex.Message}");
+					}
+				}
+			});
 		}
 
 		public void Dispose()

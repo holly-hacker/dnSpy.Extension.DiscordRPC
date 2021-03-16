@@ -7,11 +7,11 @@
         <Title>dnSpy DiscordRPC Extension</Title>
         <Description>Provides Discord Rich Presence integration for dnSpy</Description>
         <Authors>HoLLy</Authors>
-        <Copyright>Copyright © HoLLy 2020</Copyright>
-        <FileVersion>0.1.0.0</FileVersion>
-        <AssemblyVersion>0.1.0</AssemblyVersion>
+        <Copyright>Copyright © HoLLy 2020-2021</Copyright>
+        <FileVersion>0.1.1.0</FileVersion>
+        <AssemblyVersion>0.1.1</AssemblyVersion>
 
-        <PackageVersion>0.1.0</PackageVersion>
+        <PackageVersion>0.1.1</PackageVersion>
         <PackageProjectUrl>https://github.com/HoLLy-HaCKeR/dnSpy.Extension.DiscordRPC</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/HoLLy-HaCKeR/dnSpy.Extension.DiscordRPC/blob/master/LICENSE</PackageLicenseUrl>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>

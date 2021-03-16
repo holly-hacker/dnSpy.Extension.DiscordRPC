@@ -37,7 +37,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="DiscordRichPresence" Version="1.0.166" />
+      <PackageReference Include="DiscordRichPresence" Version="1.0.175" />
     </ItemGroup>
 
 </Project>

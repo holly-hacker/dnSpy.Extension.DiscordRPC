@@ -1,7 +1,7 @@
 dnSpy.Extension.DiscordRPC
 ==========================
 
-A [dnSpy](https://github.com/dnSpy/dnSpy) extension to add [Discord Rich Presence](https://discord.com/rich-presence) integration to dnSpy.
+A [dnSpy](https://github.com/dnSpyEx/dnSpy) extension to add [Discord Rich Presence](https://discord.com/rich-presence) integration to dnSpy.
 
 ### Installation
 Download the latest release [here](https://github.com/holly-hacker/dnspy.extension.discordrpc/releases/latest) and follow the instructions [here](https://github.com/HoLLy-HaCKeR/dnSpy.Extension.HoLLy#installation).
